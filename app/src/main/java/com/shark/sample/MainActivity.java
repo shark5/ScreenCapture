@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mScreenCapture != null) {
-            mScreenCapture.clearup();
+            mScreenCapture.cleanup();
             mScreenCapture = null;
         }
     }

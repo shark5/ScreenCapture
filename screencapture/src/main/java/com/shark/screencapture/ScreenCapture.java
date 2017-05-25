@@ -508,7 +508,7 @@ public class ScreenCapture {
         }
     }
 
-    public void clearup() {
+    public void cleanup() {
         if (mBitmap != null) {
             mBitmap.recycle();
             mBitmap = null;

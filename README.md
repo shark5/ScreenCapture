@@ -5,6 +5,7 @@ Use MediaProjection to get Screen Capture.
 ### 项目地址 ###
 [https://github.com/shark5/ScreenCapture](https://github.com/shark5/ScreenCapture)
 
+如果对你有帮助，请Star，谢谢！
 ### Gradle 引用 ###
 
 ```

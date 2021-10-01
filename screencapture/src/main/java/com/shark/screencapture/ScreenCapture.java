@@ -362,6 +362,8 @@ public class ScreenCapture {
                 file.createNewFile();
             }
             mMuxer = new MediaMuxer(mVideoPath + mVideoName, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+            //根据录制的方向可自行设置旋转保存视频
+            //mMuxer.setOrientationHint(90);
             recordVirtualDisplay();
         } catch (IOException e) {
             if (mCaptureListener != null) {

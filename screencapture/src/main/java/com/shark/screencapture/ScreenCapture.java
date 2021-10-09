@@ -382,6 +382,9 @@ public class ScreenCapture {
 
     private void recordVirtualDisplay() {
         while (!mIsQuit.get()) {
+            if (this.mMediaCodec == null) {//防止退出nullPoint
+                break;
+            }
             int index = mMediaCodec.dequeueOutputBuffer(mBufferInfo, 10000);
             Log.d(TAG, "dequeue output buffer index=" + index);
             if (index == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {//后续输出格式变化

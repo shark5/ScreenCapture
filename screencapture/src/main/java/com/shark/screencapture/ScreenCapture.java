@@ -140,6 +140,9 @@ public class ScreenCapture {
         mVideoPath = path;
         mVideoName = videoName;
     }
+    public String getRecordPath() {
+        return this.mVideoPath + File.separator + this.mVideoName;
+    }
 
     public void screenCapture() {
         if (isRecordOn) {

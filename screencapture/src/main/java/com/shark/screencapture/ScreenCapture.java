@@ -368,9 +368,8 @@ public class ScreenCapture {
                 mCaptureListener.onScreenRecordFailed(e.getMessage());
             }
             e.printStackTrace();
-        } finally {
-            release();
-        }
+            release();//异常则释放资源，调用cleanup 修改之前finally退出释放资源2次的错误
+        } 
     }
 
     private void recordStop() {

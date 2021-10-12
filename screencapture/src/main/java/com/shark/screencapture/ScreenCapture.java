@@ -391,7 +391,12 @@ public class ScreenCapture {
            if (this.mMediaCodec == null) {//防止退出nullPoint
                 break;
             }
-            int index = mMediaCodec.dequeueOutputBuffer(mBufferInfo, 10000);
+             int index = 0;
+            try {
+                index = this.mMediaCodec.dequeueOutputBuffer(this.mBufferInfo, 10000L);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Log.d(TAG, "dequeue output buffer index=" + index);
             if (index == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {//后续输出格式变化
                 resetOutputFormat();
@@ -459,16 +464,16 @@ public class ScreenCapture {
         if (mMediaCodec != null) {
             mMediaCodec.stop();
             mMediaCodec.release();
-            mMediaCodec = null;
+           //mMediaCodec = null;
         }
         if (mVirtualDisplay != null) {
             mVirtualDisplay.release();
-            mVirtualDisplay = null;
+            //mVirtualDisplay = null;
         }
         if (mMuxer != null) {
             mMuxer.stop();
             mMuxer.release();
-            mMuxer = null;
+            //mMuxer = null;
         }
     }
 

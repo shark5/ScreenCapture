@@ -98,10 +98,6 @@ public class ScreenCapture {
         this.mCaptureListener = captureListener;
     }
 
-    public static ScreenCapture newInstance(AppCompatActivity activity) {
-        return new ScreenCapture(activity);
-    }
-
     public ScreenCapture(AppCompatActivity activity) {
         this.mActivity = activity;
         createEnvironment();

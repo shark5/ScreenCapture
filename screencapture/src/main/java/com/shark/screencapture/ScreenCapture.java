@@ -140,6 +140,9 @@ public class ScreenCapture {
         mVideoPath = path;
         mVideoName = videoName;
     }
+    public String getRecordPath() {
+        return this.mVideoPath + File.separator + this.mVideoName;
+    }
 
     public void screenCapture() {
         if (isRecordOn) {
@@ -362,14 +365,17 @@ public class ScreenCapture {
                 file.createNewFile();
             }
             mMuxer = new MediaMuxer(mVideoPath + mVideoName, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+            //根据录制的方向可自行设置旋转保存视频
+            //mMuxer.setOrientationHint(90);
             recordVirtualDisplay();
         } catch (IOException e) {
             if (mCaptureListener != null) {
                 mCaptureListener.onScreenRecordFailed(e.getMessage());
             }
             e.printStackTrace();
+            release();//录制视频出现异常时，释放资源，finally释放资源会导致本类对象重复录制视频无法使用
         } finally {
-            release();
+           
         }
     }
 
@@ -382,10 +388,15 @@ public class ScreenCapture {
 
     private void recordVirtualDisplay() {
         while (!mIsQuit.get()) {
-            if (this.mMediaCodec == null) {//防止退出nullPoint
+           if (this.mMediaCodec == null) {//防止退出nullPoint
                 break;
             }
-            int index = mMediaCodec.dequeueOutputBuffer(mBufferInfo, 10000);
+             int index = 0;
+            try {
+                index = this.mMediaCodec.dequeueOutputBuffer(this.mBufferInfo, 10000L);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Log.d(TAG, "dequeue output buffer index=" + index);
             if (index == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {//后续输出格式变化
                 resetOutputFormat();
@@ -453,16 +464,16 @@ public class ScreenCapture {
         if (mMediaCodec != null) {
             mMediaCodec.stop();
             mMediaCodec.release();
-            mMediaCodec = null;
+           //mMediaCodec = null;
         }
         if (mVirtualDisplay != null) {
             mVirtualDisplay.release();
-            mVirtualDisplay = null;
+            //mVirtualDisplay = null;
         }
         if (mMuxer != null) {
             mMuxer.stop();
             mMuxer.release();
-            mMuxer = null;
+            //mMuxer = null;
         }
     }
 
